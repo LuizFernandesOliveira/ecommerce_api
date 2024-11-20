@@ -38,10 +38,10 @@ func (p *ProductService) GetProductByCategoryId(categoryID string) ([]*entity.Pr
 	return products, nil
 }
 
-func (p *ProductService) GetProducts() ([]*entity.Product, error) {
-	products, err := p.ProductDB.GetProducts()
+func (p *ProductService) GetProducts(pagination *entity.Pagination) (*entity.Pagination, error) {
+	pagination, err := p.ProductDB.GetProducts(pagination)
 	if err != nil {
 		return nil, err
 	}
-	return products, nil
+	return pagination, nil
 }

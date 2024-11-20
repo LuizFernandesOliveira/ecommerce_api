@@ -49,8 +49,13 @@ func (p *ProductDB) GetProductsByCategoryId(categoryID string) ([]*entity.Produc
 	return products, nil
 }
 
-func (p *ProductDB) GetProducts() ([]*entity.Product, error) {
-	rows, err := p.db.Query("SELECT id, name, description, price, category_id, image_url FROM products")
+func (p *ProductDB) GetProducts(pagination *entity.Pagination) (*entity.Pagination, error) {
+	offset := (pagination.Page - 1) * pagination.Size
+	query := `
+		SELECT id, name, description, price, category_id, image_url
+		FROM products
+		LIMIT ? OFFSET ?`
+	rows, err := p.db.Query(query, pagination.Size, offset)
 	if err != nil {
 		return nil, err
 	}
@@ -64,5 +69,14 @@ func (p *ProductDB) GetProducts() ([]*entity.Product, error) {
 		}
 		products = append(products, &product)
 	}
-	return products, nil
+
+	var total int
+	err = p.db.QueryRow("SELECT COUNT(*) FROM products").Scan(&total)
+	if err != nil {
+		return nil, err
+	}
+
+	pagination.SetItems(products)
+	pagination.SetTotal(total)
+	return pagination, nil
 }

@@ -45,12 +45,13 @@ func (h *WebProductHandler) GetProduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *WebProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
-	products, err := h.ProductService.GetProducts()
+	pagination := entity.NewPagination(r)
+	pagination, err := h.ProductService.GetProducts(pagination)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	json.NewEncoder(w).Encode(products)
+	json.NewEncoder(w).Encode(pagination)
 }
 
 func (h *WebProductHandler) GetProductsByCategory(w http.ResponseWriter, r *http.Request) {

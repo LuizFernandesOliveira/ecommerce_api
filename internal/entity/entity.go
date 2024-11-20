@@ -1,6 +1,10 @@
 package entity
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+	"net/http"
+	"strconv"
+)
 
 type Category struct {
 	ID   string `json:"id"`
@@ -32,4 +36,53 @@ func NewProduct(name, description, categoryID, imageURL string, price float64) *
 		CategoryID:  categoryID,
 		ImageURL:    imageURL,
 	}
+}
+
+type Pagination struct {
+	Page  int         `json:"page"`
+	Size  int         `json:"size"`
+	Total int         `json:"total"`
+	Items interface{} `json:"items"`
+}
+
+func NewPagination(r *http.Request) *Pagination {
+	query := r.URL.Query()
+	pageStr := query.Get("page")
+	sizeStr := query.Get("size")
+
+	page := 1
+	size := 10
+
+	if pageStr != "" {
+		if p, err := strconv.Atoi(pageStr); err == nil {
+			page = p
+		}
+	}
+	if sizeStr != "" {
+		if s, err := strconv.Atoi(sizeStr); err == nil {
+			size = s
+		}
+	}
+
+	if size <= 0 {
+		size = 10
+	}
+	if page <= 0 {
+		page = 1
+	}
+
+	return &Pagination{
+		Page: page,
+		Size: size,
+	}
+}
+
+func (p *Pagination) SetItems(items interface{}) *Pagination {
+	p.Items = items
+	return p
+}
+
+func (p *Pagination) SetTotal(total int) *Pagination {
+	p.Total = total
+	return p
 }
