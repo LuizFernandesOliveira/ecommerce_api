@@ -13,12 +13,12 @@ func NewCategoryDB(db *sql.DB) *CategoryDB {
 	return &CategoryDB{db: db}
 }
 
-func (c *CategoryDB) CreateCategory(category *entity.Category) error {
+func (c *CategoryDB) CreateCategory(category *entity.Category) (*entity.Category, error) {
 	_, err := c.db.Exec("INSERT INTO categories (id, name) VALUES (?, ?)", category.ID, category.Name)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return category, nil
 }
 
 func (c *CategoryDB) GetCategory(id string) (*entity.Category, error) {
@@ -45,5 +45,5 @@ func (c *CategoryDB) GetCategories() ([]*entity.Category, error) {
 		}
 		categories = append(categories, &category)
 	}
-	return nil, err
+	return categories, nil
 }

@@ -19,17 +19,17 @@ type Product struct {
 	Name        string
 	Description string
 	Price       float64
-	Category    string
+	CategoryID  string
 	ImageURL    string
 }
 
-func NewProduct(name, description, category, imageURL string, price float64) *Product {
+func NewProduct(name, description, categoryID, imageURL string, price float64) *Product {
 	return &Product{
 		ID:          uuid.New().String(),
 		Name:        name,
 		Description: description,
 		Price:       price,
-		Category:    category,
+		CategoryID:  categoryID,
 		ImageURL:    imageURL,
 	}
 }
