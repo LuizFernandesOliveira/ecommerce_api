@@ -8,6 +8,7 @@ import (
 	"github.com/LuizFernandesOliveira/ecommerce_api/internal/webserver"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/cors"
 	_ "github.com/go-sql-driver/mysql"
 	"net/http"
 	"os"
@@ -39,6 +40,12 @@ func main() {
 	c := chi.NewRouter()
 	c.Use(middleware.Logger)
 	c.Use(middleware.Recoverer)
+	c.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},
+		AllowCredentials: true,
+	}))
 	c.Get("/categories/{id}", webCategoryHandler.GetCategory)
 	c.Get("/categories", webCategoryHandler.GetCategories)
 	c.Post("/categories", webCategoryHandler.CreateCategory)
