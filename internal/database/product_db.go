@@ -50,7 +50,7 @@ func (p *ProductDB) GetProductsByCategoryId(categoryID string) ([]*entity.Produc
 }
 
 func (p *ProductDB) GetProducts() ([]*entity.Product, error) {
-	rows, err := p.db.Query("SELECT id, name, price, category_id FROM products")
+	rows, err := p.db.Query("SELECT id, name, description, price, category_id, image_url FROM products")
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +59,7 @@ func (p *ProductDB) GetProducts() ([]*entity.Product, error) {
 	var products []*entity.Product
 	for rows.Next() {
 		var product entity.Product
-		if err := rows.Scan(&product.ID, &product.Name, &product.Price, &product.CategoryID); err != nil {
+		if err := rows.Scan(&product.ID, &product.Name, &product.Description, &product.Price, &product.CategoryID, &product.ImageURL); err != nil {
 			return nil, err
 		}
 		products = append(products, &product)

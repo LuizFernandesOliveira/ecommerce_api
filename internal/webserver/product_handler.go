@@ -37,7 +37,7 @@ func (h *WebProductHandler) GetProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	product, err := h.ProductService.GetProduct(id)
-	if err == nil {
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

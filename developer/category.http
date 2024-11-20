@@ -1,8 +1,13 @@
-### Create category
-POST https://localhost:8080/categories
+### Create category {"ID":"db96cb7b-0546-48b2-82b2-38351ca1d7a9","Name":"Category 1"}
+POST http://localhost:8080/categories
 Content-Type: application/json
 
 {
    "name": "Category 1"
 }
-###
+
+### Get category by ID
+GET http://localhost:8080/categories/db96cb7b-0546-48b2-82b2-38351ca1d7a9
+
+### Get all categories
+GET http://localhost:8080/categories

@@ -1,0 +1,23 @@
+### Create product {"id":"c9b96e5e-f982-4f7f-bd5a-6d53515f6e6a","name":"Produto 1","description":"Descrição do produto 1","price":100,"category_id":"db96cb7b-0546-48b2-82b2-38351ca1d7a9","image_url":"http://example.com/image.jpg"}
+POST http://localhost:8080/products
+Content-Type: application/json
+
+{
+    "name": "Produto 1",
+    "description": "Descrição do produto 1",
+    "price": 100.0,
+    "category_id": "db96cb7b-0546-48b2-82b2-38351ca1d7a9",
+    "image_url": "http://example.com/image.jpg"
+}
+
+
+### Get product by ID
+GET http://localhost:8080/products/c9b96e5e-f982-4f7f-bd5a-6d53515f6e6a
+
+
+### Get all products
+GET http://localhost:8080/products
+
+
+### Get all products by category ID
+GET http://localhost:8080/products?category_id=db96cb7b-0546-48b2-82b2-38351ca1d7a9
