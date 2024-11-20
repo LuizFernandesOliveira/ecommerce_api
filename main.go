@@ -10,10 +10,17 @@ import (
 	"github.com/go-chi/chi/middleware"
 	_ "github.com/go-sql-driver/mysql"
 	"net/http"
+	"os"
 )
 
 func main() {
-	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/ecommerce")
+	var user = os.Getenv("DB_USER")
+	var password = os.Getenv("DB_PASSWORD")
+	var host = os.Getenv("DB_HOST")
+	var port = os.Getenv("DB_PORT")
+	var databaseName = os.Getenv("DB_NAME")
+	var dataSourceName = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, databaseName)
+	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		panic(err.Error())
 	}
