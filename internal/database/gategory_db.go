@@ -2,7 +2,7 @@ package database
 
 import (
 	"database/sql"
-	"github.com/LuizFernandesOliveira/fc-ecommerce-api/internal/entity"
+	"github.com/LuizFernandesOliveira/ecommerce_api/internal/entity"
 )
 
 type CategoryDB struct {
