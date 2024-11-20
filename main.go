@@ -23,6 +23,8 @@ func main() {
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		panic(err.Error())
+	} else {
+		fmt.Println("Database connected")
 	}
 	defer db.Close()
 
