@@ -19,7 +19,7 @@ func main() {
 	var host = os.Getenv("DB_HOST")
 	var port = os.Getenv("DB_PORT")
 	var databaseName = os.Getenv("DB_NAME")
-	var dataSourceName = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, databaseName)
+	var dataSourceName = fmt.Sprintf("%s:%s@%s:%s/%s", user, password, host, port, databaseName)
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		panic(err.Error())
