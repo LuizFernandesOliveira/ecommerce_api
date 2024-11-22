@@ -11,16 +11,16 @@ import (
 	"github.com/go-chi/cors"
 	_ "github.com/go-sql-driver/mysql"
 	"net/http"
-	"os"
 )
 
 func main() {
-	var user = os.Getenv("DB_USER")
-	var password = os.Getenv("DB_PASSWORD")
-	var host = os.Getenv("DB_HOST")
-	var port = os.Getenv("DB_PORT")
-	var databaseName = os.Getenv("DB_NAME")
-	var dataSourceName = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, databaseName)
+	//var user = os.Getenv("DB_USER")
+	//var password = os.Getenv("DB_PASSWORD")
+	//var host = os.Getenv("DB_HOST")
+	//var port = os.Getenv("DB_PORT")
+	//var databaseName = os.Getenv("DB_NAME")
+	//var dataSourceName = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, databaseName)
+	var dataSourceName = "root:bMFwQuqMopxdziSVzXwTALQMuSqdlksl@tcp(junction.proxy.rlwy.net:34887)/railway"
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		panic(err.Error())
