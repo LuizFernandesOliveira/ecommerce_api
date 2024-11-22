@@ -46,7 +46,7 @@ func (h *WebProductHandler) GetProduct(w http.ResponseWriter, r *http.Request) {
 
 func (h *WebProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
 	pagination := entity.NewPagination(r)
-	categoryID := chi.URLParam(r, "categoryID")
+	categoryID := chi.URLParam(r, "category_id")
 	pagination, err := h.ProductService.GetProducts(pagination, categoryID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
