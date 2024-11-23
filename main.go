@@ -43,7 +43,7 @@ func main() {
 	c.Use(cors.Handler(cors.Options{
 		AllowedOrigins:   []string{"*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "Api-Key"},
 		AllowCredentials: true,
 	}))
 	c.Get("/categories/{id}", webCategoryHandler.GetCategory)
@@ -65,7 +65,7 @@ func main() {
 func ApiKeyForPostMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
-			apiKey := r.Header.Get("api-key")
+			apiKey := r.Header.Get("Api-Key")
 
 			var apiKeyEnv = os.Getenv("API_KEY")
 			if apiKey != apiKeyEnv {
