@@ -11,16 +11,16 @@ import (
 	"github.com/go-chi/cors"
 	_ "github.com/go-sql-driver/mysql"
 	"net/http"
+	"os"
 )
 
 func main() {
-	//var user = os.Getenv("DB_USER")
-	//var password = os.Getenv("DB_PASSWORD")
-	//var host = os.Getenv("DB_HOST")
-	//var port = os.Getenv("DB_PORT")
-	//var databaseName = os.Getenv("DB_NAME")
-	//var dataSourceName = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, databaseName)
-	var dataSourceName = "root:bMFwQuqMopxdziSVzXwTALQMuSqdlksl@tcp(junction.proxy.rlwy.net:34887)/railway"
+	var user = os.Getenv("DB_USER")
+	var password = os.Getenv("DB_PASSWORD")
+	var host = os.Getenv("DB_HOST")
+	var port = os.Getenv("DB_PORT")
+	var databaseName = os.Getenv("DB_NAME")
+	var dataSourceName = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, databaseName)
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		panic(err.Error())
@@ -48,12 +48,32 @@ func main() {
 	}))
 	c.Get("/categories/{id}", webCategoryHandler.GetCategory)
 	c.Get("/categories", webCategoryHandler.GetCategories)
-	c.Post("/categories", webCategoryHandler.CreateCategory)
 
 	c.Get("/products/{id}", webProducHandler.GetProduct)
 	c.Get("/products", webProducHandler.GetProducts)
-	c.Post("/products", webProducHandler.CreateProduct)
+
+	c.Group(func(r chi.Router) {
+		r.Use(ApiKeyForPostMiddleware)
+		r.Post("/categories", webCategoryHandler.CreateCategory)
+		r.Post("/products", webProducHandler.CreateProduct)
+	})
 
 	fmt.Println("Server is running on port 8080")
 	http.ListenAndServe(":8080", c)
+}
+
+func ApiKeyForPostMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			apiKey := r.Header.Get("api-key")
+
+			var apiKeyEnv = os.Getenv("API_KEY")
+			if apiKey != apiKeyEnv {
+				http.Error(w, "Unauthorized", http.StatusUnauthorized)
+				return
+			}
+		}
+
+		next.ServeHTTP(w, r)
+	})
 }
