@@ -27,6 +27,7 @@ func (h *WebCategoryHandler) CreateCategory(w http.ResponseWriter, r *http.Reque
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(createdCategory)
 }
 

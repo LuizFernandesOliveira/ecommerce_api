@@ -1,13 +1,13 @@
-### Create product {"id":"c9b96e5e-f982-4f7f-bd5a-6d53515f6e6a","name":"Produto 1","description":"Descrição do produto 1","price":100,"category_id":"db96cb7b-0546-48b2-82b2-38351ca1d7a9","image_url":"http://example.com/image.jpg"}
-POST http://localhost:8080/products
+### Create product
+POST https://ecommerceapi-production-ecc4.up.railway.app/products
 Content-Type: application/json
 
 {
-    "name": "Produto 1",
-    "description": "Descrição do produto 1",
-    "price": 100.0,
-    "category_id": "db96cb7b-0546-48b2-82b2-38351ca1d7a9",
-    "image_url": "http://example.com/image.jpg"
+    "name": "Flex power A10s",
+    "description": "Flex power A10s",
+    "price": 10.0,
+    "category_id": "8492fe88-aa62-4b13-b98d-9e244cbce729",
+    "image_url": "https://firebasestorage.googleapis.com/v0/b/kyte-7c484.appspot.com/o/WbIA77nisQcaPC7BAbK8lyAgHVA3%2F9ca590ab-d008-4daa-b7fb-f758db85aef4.jpg?alt=media"
 }
 
 
