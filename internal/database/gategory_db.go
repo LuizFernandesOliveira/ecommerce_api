@@ -47,3 +47,11 @@ func (c *CategoryDB) GetCategories() ([]*entity.Category, error) {
 	}
 	return categories, nil
 }
+
+func (c *CategoryDB) DeleteCategory(categoryID string) error {
+	_, err := c.db.Exec("DELETE FROM categories WHERE id = ?", categoryID)
+	if err != nil {
+		return err
+	}
+	return nil
+}

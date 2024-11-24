@@ -37,3 +37,11 @@ func (c *CategoryService) GetCategories() ([]*entity.Category, error) {
 	}
 	return categories, nil
 }
+
+func (c *CategoryService) DeleteCategory(categoryID string) error {
+	err := c.CategoryDB.DeleteCategory(categoryID)
+	if err != nil {
+		return err
+	}
+	return nil
+}

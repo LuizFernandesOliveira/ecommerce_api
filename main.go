@@ -55,6 +55,7 @@ func main() {
 	c.Group(func(r chi.Router) {
 		r.Use(ApiKeyForPostMiddleware)
 		r.Post("/categories", webCategoryHandler.CreateCategory)
+		r.Delete("/categories/{id}", webCategoryHandler.DeleteCategory)
 		r.Post("/products", webProducHandler.CreateProduct)
 	})
 
@@ -64,14 +65,12 @@ func main() {
 
 func ApiKeyForPostMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodPost {
-			apiKey := r.Header.Get("Api-Key")
+		apiKey := r.Header.Get("Api-Key")
 
-			var apiKeyEnv = os.Getenv("API_KEY")
-			if apiKey != apiKeyEnv {
-				http.Error(w, "Unauthorized", http.StatusUnauthorized)
-				return
-			}
+		var apiKeyEnv = os.Getenv("API_KEY")
+		if apiKey != apiKeyEnv {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
 		}
 
 		next.ServeHTTP(w, r)

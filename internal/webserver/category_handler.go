@@ -53,3 +53,18 @@ func (h *WebCategoryHandler) GetCategories(w http.ResponseWriter, r *http.Reques
 	}
 	json.NewEncoder(w).Encode(categories)
 }
+
+func (h *WebCategoryHandler) DeleteCategory(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		http.Error(w, "id is required", http.StatusBadRequest)
+		return
+	}
+
+	err := h.CategoryService.DeleteCategory(id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
